@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Business - Vladimir Vilde</title>
+  <meta name="description" content="Companies and ventures.">
+  <link rel="icon" href="assets/img/photo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Schibsted+Grotesk:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css?v=7">
+  <script>try { if (localStorage.getItem("theme") === "dark") document.documentElement.dataset.theme = "dark"; } catch (e) {}</script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">vladimir-vilde</a>
+      <div class="nav">
+      <nav class="tabs">
+        <a href="index.html">Home</a>
+        <a href="business.html" aria-current="page">Business</a>
+        <a href="profile.html">Profile</a>
+      </nav>
+      <button class="theme-toggle" id="theme-toggle" type="button">Dark</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="page-head" data-page="business">
+      <h1>Business</h1>
+      <p>Companies, ventures and collaborations I'm part of.</p>
+    </section>
+    <ul class="ledger" id="list" data-source="business"></ul>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap mono">
+      <span>&copy; <span id="year"></span> <span data-name></span></span>
+    </div>
+  </footer>
+
+  <script src="assets/js/data.js?v=15"></script>
+  <script src="assets/js/garden.js?v=7"></script>
+  <script src="assets/js/site.js?v=7"></script>
+</body>
+</html>
