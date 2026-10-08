@@ -33,24 +33,12 @@ window.SITE = {
       "links": [
         {
           "label": "Map",
-          "url": "folkmap.org"
+          "url": "http://folkmap.org"
         }
       ],
       "details": [
         "When I see a video on traditional art, such as dance or clothing, I always wonder what can be found in neighbouring places.",
         "Usually we just find one video, isolated from context. So I just pinned these video onto a map to view them all."
-      ]
-    },
-    {
-      "type": "hobby",
-      "title": "Mountain hikes",
-      "year": "Every season",
-      "tags": [
-        "Outdoor"
-      ],
-      "text": "Weekend routes around the Alps, logged and mapped.",
-      "details": [
-        "Mostly day hikes between 1500 and 3000 m. Each route gets a GPX track, a few photos and notes on where to eat afterwards."
       ]
     },
     {
@@ -71,26 +59,58 @@ window.SITE = {
     },
     {
       "type": "project",
-      "title": "Environmental Monitoring for Heritage Collections",
+      "title": "Portable climate chamber",
       "tags": [
         "Sensing",
         "Dashboard"
       ],
-      "text": "Non-invasive sensing system and live dashboard for collections.",
       "details": [
-        "Non-invasive sensing system and live dashboard deployed with institutional collections."
-      ]
+        "I used to deploy camera to monitor movement of painting against humidity.",
+        "So I also build a custom humidity chamber that can control the environment around my samples. The chambre was portable and can be adapted to several instrument. \nObviously with clear wall to use cameras!",
+        "I will be sharing the project file.."
+      ],
+      "text": "To control humidity while working on heritage samples."
     },
     {
       "type": "project",
-      "title": "Micro-3D Scanning of Archaeological Fragments",
+      "title": "Micro-3D Scanning for archaeology",
       "tags": [
         "Imaging",
         "3D"
       ],
-      "text": "Imaging and reconstruction at sub-millimetre scale.",
+      "text": "A small device to scan small ceramic fragments",
       "details": [
-        "Imaging and reconstruction workflow producing measurable condition data at sub-millimetre scale."
+        "This project started by a discussion with an archaeologist with the very niche centre of interest: Ancient trash.",
+        "We build a tiny setup to automatically scan fragments and measure their shape. The goal was to identify which tool they used to drill holes, as I said, very niche!",
+        "Now we are onto the v2... work in progress..."
+      ],
+      "size": "l"
+    },
+    {
+      "type": "project",
+      "title": "openCallSlow",
+      "text": "Just an app to monitor traffic",
+      "details": [
+        "We kept talking about how much data we are using, how much energy compute use etc... But I rarely see number.",
+        "OpencallSlow is an open source project aiming to monitor internet traffic and estimate cost."
+      ],
+      "tags": [
+        "opensource",
+        "conso",
+        "llm"
+      ]
+    },
+    {
+      "type": "project",
+      "title": "Game design",
+      "text": "Sort of.....",
+      "details": [
+        "I used to play around with game engine, it was never to build full game but rather to test idea.",
+        "With LLM, this process got much easier. It's also interesting how the tools work for making a game, as it relies on strategy, rule based, visuals, sound etc... It's a nice benchmark for LLM."
+      ],
+      "tags": [
+        "game",
+        "llm"
       ]
     }
   ],
