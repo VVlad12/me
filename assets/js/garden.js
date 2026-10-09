@@ -248,11 +248,13 @@ window.Garden = (function () {
   }
 
   /* ---------- small pattern for windows without an image ---------- */
-  function swatch(canvas, key, bg) {
+  // kind: 0 flower, 1 leaves, 2 rings, 3 seeds (default: picked from the key)
+  function swatch(canvas, key, bg, forcedKind) {
     const r = rng(hash(key));
     const { ctx, W, H } = fit(canvas);
     const pal = palette();
-    const kind = Math.floor(r() * 4);
+    let kind = Math.floor(r() * 4);
+    if (forcedKind >= 0 && forcedKind <= 3) kind = forcedKind;
     const bgs = [pal.ochre, pal.stem, pal.beet, pal.blush];
     ctx.fillStyle = kind === 0 ? pal.fog : bgs[Math.floor(r() * bgs.length)];
     if (bg) ctx.fillStyle = bg;

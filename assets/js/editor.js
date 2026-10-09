@@ -253,6 +253,27 @@
       pickEl.addEventListener("input", () => { textEl.value = pickEl.value; set(pickEl.value); });
       textEl.addEventListener("input", () => { if (textEl.value) pickEl.value = toHex(textEl.value); set(textEl.value.trim()); });
       wrap.querySelector("button").addEventListener("click", () => { textEl.value = ""; pickEl.value = toHex(fb); set(""); });
+    } else if (type === "picture") {
+      // pattern style + a random number that pins the drawing (style.pattern, style.seed)
+      const st = () => obj.style || {};
+      const opts = [["", "Any"], ["flower", "Flower"], ["leaves", "Leaves"], ["rings", "Rings"], ["seeds", "Seeds"]];
+      wrap.innerHTML = label + `<div class="ed-picture">
+        <select id="${id}" aria-label="Pattern style">${opts.map(([v, l]) =>
+          `<option value="${v}" ${(st().pattern || "") === v ? "selected" : ""}>${l}</option>`).join("")}</select>
+        <button type="button" class="ed-mini" data-do="shuffle">Shuffle</button>
+        <button type="button" class="ed-mini" data-do="reset">Reset</button></div>
+        <small></small>`;
+      const sel = wrap.querySelector("select");
+      const note = wrap.querySelector("small");
+      const show = () => (note.textContent = st().seed ? `Pattern no. ${st().seed}` : "Follows the title until you shuffle");
+      show();
+      sel.addEventListener("change", () => { setK(obj, "style.pattern", sel.value); show(); onChange(); });
+      wrap.querySelector('[data-do="shuffle"]').addEventListener("click", () => {
+        setK(obj, "style.seed", Math.floor(Math.random() * 99999) + 1); show(); onChange();
+      });
+      wrap.querySelector('[data-do="reset"]').addEventListener("click", () => {
+        setK(obj, "style.seed", ""); setK(obj, "style.pattern", ""); sel.value = ""; show(); onChange();
+      });
     } else if (type === "font") {
       wrap.innerHTML = label + `<input type="text" id="${id}" list="ed-fonts" value="${esc(val || "")}" placeholder="${esc(f.placeholder || "Default")}">
         <small>Any Google Fonts family name works.</small>`;
@@ -330,6 +351,7 @@
       { title: "Look", fields: [
         { label: "Size", key: "size", type: "select", options: [["", "Random"], ["s", "Small"], ["m", "Medium"], ["l", "Large"]] },
         { label: "Title bar colour", key: "style.bar", type: "color", fallback: () => token(it.type === "hobby" ? "moss" : "bark") },
+        { label: "Generated picture (when there is no image)", key: "style", type: "picture" },
         { label: "Picture colour (when there is no image)", key: "style.tint", type: "color", fallback: () => token("ochre") },
         { label: "Title font", key: "style.font", type: "font", placeholder: "Same as the site" },
         { label: "Title colour", key: "style.titleColor", type: "color", fallback: () => token("bark") },

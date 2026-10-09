@@ -119,3 +119,5 @@
   border: 1px dashed var(--line); font-size: .85rem;
 }
 .ed-on .ed-add:hover { color: var(--bark); border-color: var(--bark); }
+
+.ed-picture { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 6px; align-items: center; }

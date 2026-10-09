@@ -154,6 +154,16 @@
   let filter = "all";
   let top = 10;
 
+  // generated picture for items without an image: style.seed and style.pattern
+  // pin its look; otherwise it is derived from the title
+  const PATTERNS = ["flower", "leaves", "rings", "seeds"];
+  function paintPicture(canvas, it) {
+    const st = it.style || {};
+    const key = st.seed ? "seed:" + st.seed : it.title;
+    window.Garden.swatch(canvas, key, st.tint, PATTERNS.indexOf(st.pattern));
+  }
+  Site.PATTERNS = PATTERNS;
+
   const imagesOf = (it) => [].concat(it.images || [], it.image || []).filter((v, i, a) => v && a.indexOf(v) === i);
   const pathOf = (it) => `~/${it.type === "hobby" ? "hobbies" : "projects"}/${slug(it.title)}`;
   Site.imagesOf = imagesOf;
@@ -195,7 +205,7 @@
     wins.forEach((el, i) => {
       const c = el.querySelector(".win-media canvas");
       const it = S.gallery[i];
-      if (c) window.Garden.swatch(c, it.title, it.style && it.style.tint);
+      if (c) paintPicture(c, it);
     });
   }
 
@@ -215,8 +225,17 @@
     desk.style.height = maxBottom + 40 + "px";
   }
 
-  // Loose masonry: each window drops into one of the lowest columns with
-  // random jitter, tilt and a bit of overlap, like windows left open on a desk.
+  // standard normal random number (Box-Muller)
+  const gauss = () => {
+    let u = 0, v = 0;
+    while (!u) u = Math.random();
+    while (!v) v = Math.random();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+  };
+
+  // Loose masonry gathered toward the middle: windows drop into columns of a
+  // centred area, inner columns are preferred, and each x is drawn from a normal
+  // distribution around its column, nudged toward the centre of the desk.
   function scatter() {
     paintSwatches();
     if (isPhone()) { desk.style.height = ""; return; }
@@ -225,17 +244,23 @@
 
     const W = desk.clientWidth;
     const pad = edge();
-    const cols = Math.max(2, Math.floor((W - pad * 2) / 290));
-    const colW = (W - pad * 2) / cols;
+    const area = Math.min(W - pad * 2, 1240);                  // same width as the page content
+    const left0 = (W - area) / 2;
+    const cols = Math.max(2, Math.min(Math.floor(area / 290), Math.ceil(visible.length / 2)));
+    const colW = area / cols;
+    const mid = (cols - 1) / 2;
     const bottoms = Array.from({ length: cols }, () => pad + rand(0, 50));
 
     visible.forEach((el) => {
       const w = el.offsetWidth, h = el.offsetHeight;
-      const order = bottoms.map((b, i) => [b, i]).sort((a, b) => a[0] - b[0]);
-      const col = order[Math.random() < 0.7 ? 0 : Math.min(1, cols - 1)][1];
+      // lowest column wins, but outer columns pay a penalty growing with distance from the centre
+      const scores = bottoms.map((b, c) => b + 140 * Math.pow((c - mid) / Math.max(mid, 1), 2) + rand(0, 60));
+      const col = scores.indexOf(Math.min(...scores));
 
-      const spare = Math.max(0, colW - w);
-      let x = pad + col * colW + rand(-0.3, 1.3) * spare;
+      const spare = Math.max(24, colW - w);
+      let x = left0 + colW * (col + 0.5) - w / 2;               // column centre
+      x += (W / 2 - (x + w / 2)) * 0.15;                       // pull toward the middle
+      x += gauss() * spare * 0.35;                             // normal jitter
       x = Math.min(Math.max(pad, x), W - w - pad);
       const y = bottoms[col] + rand(0, 40);
 
@@ -361,7 +386,7 @@
 
     if (!dlg.open) dlg.showModal();
     const c = dlg.querySelector(".detail-media canvas");
-    if (c) window.Garden.swatch(c, it.title, it.style && it.style.tint);
+    if (c) paintPicture(c, it);
     if (!fromHash) history.replaceState(null, "", "#" + slug(it.title));
   }
   Site.openDetail = openDetail;
@@ -401,7 +426,7 @@
       paintSwatches();
       const c = dlg.open && dlg.querySelector(".detail-media canvas");
       const it = S.gallery[+dlg.dataset.index];
-      if (c && it) window.Garden.swatch(c, it.title, it.style && it.style.tint);
+      if (c && it) paintPicture(c, it);
     });
 
     Site.rebuild();
