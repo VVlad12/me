@@ -4,6 +4,8 @@ Static portfolio (HTML/CSS/JS only) for GitHub Pages.
 
 - `index.html`: photo and summary, generated flowers, then a scattered "desktop" gallery of projects and hobbies
 - `business.html`, `profile.html`: simple lists
+- `cat.html`: experiment, not linked from the menu. The home page with a cat that walks in and knocks elements off the screen (`assets/js/cat.js`). Buttons at the bottom right let it in, shoo it, and put everything back
+- `sketch.html`: rendering test, not linked from the menu. Seven animals (cat, dog, pigeon, squirrel, rabbit, fox, hedgehog), each with three poses, drawn as one animated brush stroke in one of four line styles; the seed picks pose and style. `?animal=cat&pose=1&seed=1234&style=fine` replays a given sketch
 - All content, colours and fonts live in `assets/js/data.js`.
 
 ## Edit locally

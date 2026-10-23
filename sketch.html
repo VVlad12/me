@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sketches - Vladimir Vilde</title>
+  <meta name="description" content="Rendering test: animals drawn in one brush stroke.">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="assets/img/photo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Schibsted+Grotesk:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css?v=10">
+  <script>try { if (localStorage.getItem("theme") === "dark") document.documentElement.dataset.theme = "dark"; } catch (e) {}</script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">vladimir-vilde</a>
+      <div class="nav">
+      <nav class="tabs">
+        <a href="index.html">Home</a>
+        <a href="business.html">Business</a>
+        <a href="profile.html">Profile</a>
+      </nav>
+      <button class="theme-toggle" id="theme-toggle" type="button">Dark</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="page-head">
+      <h1>One-stroke animals</h1>
+      <p>A rendering test next to the garden: the whole animal is a single brush stroke, revealed as the brush travels. Same seed, same drawing.</p>
+    </section>
+
+    <section class="sketch" aria-label="Animated sketch">
+      <div class="sketch-paper"><canvas></canvas></div>
+      <div class="sketch-meta mono">
+        <span>Sketch no. <span id="sketch-seed"></span> · <span id="sketch-name"></span> · <span id="sketch-style"></span></span>
+        <div class="sketch-pick" id="sketch-pick">
+          <button type="button" id="redraw">Draw another</button>
+        </div>
+        <div class="sketch-pick sketch-styles" id="sketch-styles"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap mono">
+      <span>&copy; <span id="year"></span> <span data-name></span></span>
+    </div>
+  </footer>
+
+  <script src="assets/js/data.js?v=11"></script>
+  <script src="assets/js/garden.js?v=8"></script>
+  <script src="assets/js/sketch.js?v=4"></script>
+  <script src="assets/js/site.js?v=8"></script>
+  <script>
+    (function () {
+      const $ = (s) => document.querySelector(s);
+      // a chosen style sticks until "Any style"; the animal is re-rolled unless its button was used
+      let style;
+      const sk = window.Sketch.sketch($(".sketch-paper canvas"), (info) => {
+        $("#sketch-seed").textContent = info.seed;
+        $("#sketch-name").textContent = info.label + ", " + info.poseLabel;
+        $("#sketch-style").textContent = info.styleLabel;
+        document.querySelectorAll("#sketch-pick [data-animal]").forEach((b) =>
+          b.setAttribute("aria-pressed", String(b.dataset.animal === info.name)));
+        document.querySelectorAll("#sketch-styles [data-style]").forEach((b) =>
+          b.setAttribute("aria-pressed", String((b.dataset.style || undefined) === style)));
+        history.replaceState(null, "", `?animal=${info.name}&pose=${info.pose}&seed=${info.seed}${style ? "&style=" + style : ""}`);
+      });
+      // one button per animal, "Draw another" keeps the random pick
+      const pick = $("#sketch-pick");
+      window.Sketch.NAMES.forEach((n) => {
+        const b = document.createElement("button");
+        b.type = "button"; b.dataset.animal = n; b.textContent = window.Sketch.labelOf(n);
+        b.addEventListener("click", () => sk.paint(n, undefined, style));
+        pick.insertBefore(b, $("#redraw"));
+      });
+      // one button per way of drawing
+      const styles = $("#sketch-styles");
+      [{ key: "", label: "Any style" }, ...window.Sketch.STYLES].forEach((st) => {
+        const b = document.createElement("button");
+        b.type = "button"; b.dataset.style = st.key; b.textContent = st.label;
+        b.addEventListener("click", () => { style = st.key || undefined; sk.paint(sk.name, undefined, style); });
+        styles.appendChild(b);
+      });
+      $("#redraw").addEventListener("click", () => sk.paint(undefined, undefined, style));
+      $(".sketch-paper canvas").addEventListener("click", () => sk.paint(sk.name, undefined, style));
+      const q = new URLSearchParams(location.search);
+      style = q.get("style") || undefined;
+      sk.paint(q.get("animal") || undefined, q.has("seed") ? +q.get("seed") : undefined, style, q.has("pose") ? +q.get("pose") : undefined);
+    })();
+  </script>
+</body>
+</html>

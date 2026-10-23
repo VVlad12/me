@@ -39,7 +39,11 @@ window.SITE = {
       "details": [
         "When I see a video on traditional art, such as dance or clothing, I always wonder what can be found in neighbouring places.",
         "Usually we just find one video, isolated from context. So I just pinned these video onto a map to view them all."
-      ]
+      ],
+      "style": {
+        "seed": 5412,
+        "pattern": "flower"
+      }
     },
     {
       "type": "hobby",
@@ -112,6 +116,42 @@ window.SITE = {
         "game",
         "llm"
       ]
+    },
+    {
+      "type": "hobby",
+      "title": "Genealogy",
+      "text": "Tracing back personal history",
+      "details": [
+        "With limited information about my own family, I started to dig the past to better understand.\nI worked for the heritage sector, and always found we don't consider enough the life of \"normal folks\", it's usually about kings and queens!",
+        "Worth noting that some countries have amazing digital records of historical documents, which help to explore in depth and find out little treasures."
+      ],
+      "tags": [
+        "history"
+      ],
+      "images": [
+        "assets/img/uploads/pxl_20261020_102327669-2.jpg"
+      ]
+    },
+    {
+      "type": "project",
+      "title": "Mesheritage",
+      "text": "One or two lines about it.",
+      "year": "Done"
+    },
+    {
+      "type": "project",
+      "title": "AI ethic",
+      "text": "One or two lines about it."
+    },
+    {
+      "type": "project",
+      "title": "Lowcost tech",
+      "text": "One or two lines about it."
+    },
+    {
+      "type": "project",
+      "text": "One or two lines about it.",
+      "title": "Softwares"
     }
   ],
   "pages": {

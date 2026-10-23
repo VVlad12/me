@@ -9,7 +9,7 @@ from urllib.parse import urlparse, parse_qs
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "assets", "js", "data.js")
 UPLOADS = os.path.join(ROOT, "assets", "img", "uploads")
-PAGES = ["index.html", "business.html", "profile.html"]
+PAGES = ["index.html", "business.html", "profile.html", "sketch.html", "cat.html"]
 IMAGE_EXT = {".jpg", ".jpeg", ".png", ".gif", ".webp", ".avif", ".svg"}
 MAX_BODY = 25 * 1024 * 1024
 
